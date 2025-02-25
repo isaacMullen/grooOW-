@@ -25,46 +25,64 @@ public class PlayerController : MonoBehaviour
 
     [Header("Sound Effect Settings")]
     public AudioClip jumpSound;
-    public AudioClip collectSound;
+    //public AudioClip collectSound;
 
     [Header("Ground Check Settings")]
     public float groundCheckDistance = 1f;
     public LayerMask groundLayer;
     private bool isGrounded;
-
-    [Header("UI Settings")]
-    public int score = 0;
-    int total = 0;
-    public string ScoreString => score.ToString();
-    public TextMeshProUGUI text;
+  
+    //private int score = 0;    
+    //private TextMeshProUGUI scoreTextMesh;
+    //public int TotalCoins { get; private set; }
+    //public string ScoreString => score.ToString();
 
     private GameObject parent;
     private Vector3 originalScale;
 
     void Start()
-    {
-        originalScale = transform.localScale;
+    {        
+        //components that live on the player
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
-        parent = GameObject.FindGameObjectWithTag("PickupParent");
-        total = parent.transform.childCount;
 
+        //for my animation
+        originalScale = transform.localScale;
+
+        //storing a reference to the coins container
+        //parent = GameObject.FindGameObjectWithTag("PickupParent");        
+        //TotalCoins = parent.transform.childCount;
+
+        ////dynamically finds the coin text
+        //GameObject scoreObject = GameObject.FindGameObjectWithTag("ScoreText");
+        
+        //if (scoreObject != null)
+        //{
+        //    scoreTextMesh = scoreObject.GetComponent<TextMeshProUGUI>();
+        //}
+        //else
+        //{
+        //    Debug.LogError("Object with Tag: 'ScoreText' not found!");
+        //}
+
+        //will set initial score
+        //UpdateScore(scoreTextMesh);
         //starting the main background music
         audioSource.Play();
     }
-
+    
     private void OnEnable()
     {
         Actions.OnMovePerformed += HandlePlayerMove;
         Actions.OnJumpPerformed += HandlePlayerJump;
-        Actions.OnCoinCollected += UpdateScore;
+        //Actions.OnCoinCollected += CollectCoin;
     }
 
     private void OnDisable()
     {
         Actions.OnMovePerformed -= HandlePlayerMove;
         Actions.OnJumpPerformed -= HandlePlayerJump;
-        Actions.OnCoinCollected -= UpdateScore;
+        //Actions.OnCoinCollected -= CollectCoin;
     }
 
     private void HandlePlayerMove(Vector2 direction)
@@ -126,13 +144,28 @@ public class PlayerController : MonoBehaviour
         }        
     }
 
-    private void UpdateScore()
-    {
-        audioSource.PlayOneShot(collectSound);
+    //private void CollectCoin()
+    //{
+    //    VictoryCheck();
+    //    audioSource.PlayOneShot(collectSound);
 
-        score += 1;
+    //    score += 1;
 
-        text.SetText($"{ScoreString}/{total}");
-    }
+    //    UpdateScore(scoreTextMesh);
+    //} 
+    
+    //private void UpdateScore(TextMeshProUGUI text)
+    //{
+    //    text.text = $"{ScoreString}/{TotalCoins}";
+    //}
+
+    //private bool VictoryCheck()
+    //{
+    //    if (score >= TotalCoins)
+    //    {
+    //        return true;
+    //    }
+    //    else return false;
+    //}
 }
         
